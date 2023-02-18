@@ -1,4 +1,5 @@
-body, html{
+body,
+html {
   height: 100%;
 }
 
@@ -14,4 +15,10 @@ body, html{
 
 .main-content {
   height: 100%;
+}
+
+#nameContainer,
+#lastNameContainer,
+#confirmPassContainer {
+  display: none;
 }
