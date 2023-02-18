@@ -1,0 +1,17 @@
+body, html{
+  height: 100%;
+}
+
+.background {
+  background-color: #2D3047;
+}
+
+.form-container {
+  background-color: #F1F0EA;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.main-content {
+  height: 100%;
+}

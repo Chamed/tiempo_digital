@@ -1,3 +1,7 @@
 body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-primary:hover {
+    background-color: #2D3047;
 }
