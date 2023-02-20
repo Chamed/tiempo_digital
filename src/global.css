@@ -2,6 +2,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.toast {
+    position: absolute;
+    z-index: 9999;
+}
+
+
 .btn-primary:hover {
     background-color: #2D3047;
 }
