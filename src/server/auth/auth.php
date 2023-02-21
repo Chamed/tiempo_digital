@@ -1,7 +1,7 @@
 <?php
 require_once('../db/db.php');
 
-$type =  $_POST['type'];
+$type = $_POST['type'];
 function register_user()
 {
   $response = array('status' => 'success', 'message' => 'OK');
@@ -11,7 +11,7 @@ function register_user()
   $email = $_POST['email'];
   $last_name = $_POST['last_name'];
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  
+
   try {
     $stmt = $conn->prepare("INSERT INTO tiempo_digital.user (email, password, name, last_name) VALUES (:email, :password, :name, :last_name)");
     $stmt->execute(array('email' => $email, 'password' => $password, 'name' => $name, 'last_name' => $last_name));
@@ -28,7 +28,7 @@ function login()
   $response = array('status' => 'error', 'message' => 'Incorrect email or password', 'user_data' => []);
 
   global $conn;
-  $email    = $_POST['email'];
+  $email = $_POST['email'];
   $password = $_POST['password'];
 
   try {
@@ -41,10 +41,14 @@ function login()
     $hashed_password_verified = password_verify($password, $hashed_password);
 
     if ($hashed_password_verified) {
+      session_start();
+
       unset($user['password']);
+      $_SESSION['user_data'] = $user;
+
        $response['user_data'] = $user;
-       $response['status'] = 'success';
-       $response['message'] = 'OK';
+      $response['status'] = 'success';
+      $response['message'] = 'OK';
     }
   } catch (Exception $e) {
     $response = array('status' => 'error', 'message' => $e->getCode());
@@ -53,7 +57,7 @@ function login()
   }
 }
 
-if($type == 'login'){
+if ($type == 'login') {
   login();
 } else {
   register_user();

@@ -31,5 +31,15 @@ const clearForm = (formId) => {
   }
 }
 
+const quickUnauthenticatedUser = () => {
+  window.addEventListener('load', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
 
-export { showToast, clearForm };
+    if (!user) {
+      window.location.replace('../auth/auth.html');
+    }
+  });
+}
+
+
+export { showToast, clearForm, quickUnauthenticatedUser };

@@ -1,4 +1,12 @@
-import { showToast, clearForm } from '../utils/utils.js';
+import { showToast, clearForm } from '../../utils/utils.js';
+
+window.addEventListener('load', () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user) {
+    window.location.replace('../home/home.html');
+  }
+});
 
 let currentFormState = 'login';
 
@@ -25,8 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
       type: currentFormState,
     };
 
-    clearForm('form');
-
     if (validateForm(formData)) {
       $.ajax({
         type: 'post',
@@ -46,7 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
               showToast('Verifique seu email e senha e tente novamente', 'error');
             }
           } else {
-            showToast(currentFormState === 'register' ? 'Usuário cadastrado com sucesso' : 'Login efetuado com sucesso', 'success');
+            if (currentFormState === 'register') {
+              showToast('Usuário cadastrado com sucesso', 'success');
+            } else {
+              showToast('Login efetuado com sucesso', 'success');
+              localStorage.setItem('user', JSON.stringify(response.user_data));
+              console.log(JSON.parse(localStorage.getItem('user')));
+            }
+
+            clearForm('form');
           }
         },
       });
