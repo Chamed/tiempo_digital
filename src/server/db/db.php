@@ -11,7 +11,7 @@ $bd_senha = "123456";
 
 try {
   $dsn_pgsql = "pgsql:host=$bd_host;port=5432;dbname=$base_de_dados;";
-  // make a database connection
+
   $conn = new PDO(
     $dsn_pgsql,
     $bd_usuario,

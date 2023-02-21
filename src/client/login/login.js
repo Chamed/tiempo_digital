@@ -1,6 +1,12 @@
-import { showToast } from '../utils/utils.js';
+import { showToast, clearForm } from '../utils/utils.js';
 
 let currentFormState = 'login';
+
+const email = document.getElementById('email');
+const pass = document.getElementById('pass');
+const confirmPass = document.getElementById('confirmPass');
+const name = document.getElementById('name');
+const lastname = document.getElementById('lastname');
 
 document.addEventListener('DOMContentLoaded', () => {
   const toggleStateButton = document.getElementById('toggleStateButton');
@@ -19,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
       type: currentFormState,
     };
 
+    clearForm('form');
+
     if (validateForm(formData)) {
       $.ajax({
         type: 'post',
@@ -28,13 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
           const response = JSON.parse(jsonResponse);
 
           if (response.status === 'error') {
-            if (response.message === '23505') {
-              showToast('Email já cadastrado', 'error');
+            if (currentFormState === 'register') {
+              if (response.message === '23505') {
+                showToast('Email já cadastrado', 'error');
+              } else {
+                showToast('Erro desconhecido', 'error');
+              }
             } else {
-              showToast('Erro desconhecido', 'error');
+              showToast('Verifique seu email e senha e tente novamente', 'error');
             }
           } else {
-            showToast('Usuário cadastrado com sucesso', 'success');
+            showToast(currentFormState === 'register' ? 'Usuário cadastrado com sucesso' : 'Login efetuado com sucesso', 'success');
           }
         },
       });
@@ -57,6 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.innerHTML = "Entrar"
         currentFormState = 'login';
       }
+
+      email.classList.remove('is-invalid');
+      pass.classList.remove('is-invalid');
+      confirmPass.classList.remove('is-invalid');
+      name.classList.remove('is-invalid');
+      lastname.classList.remove('is-invalid');
+      clearForm('form');
     }
   }, false);
 });
@@ -70,7 +89,6 @@ const validateForm = (formData) => {
   let valid = true;
 
   if (!formData.email || !formData.email.includes('@')) {
-    const email = document.getElementById('email');
     const emailErrorMessage = document.getElementById('emailErrorMessage');
     emailErrorMessage.innerHTML = 'Email inválido'
     email.classList.add('is-invalid');
@@ -79,8 +97,6 @@ const validateForm = (formData) => {
     email.classList.remove('is-invalid');
   }
 
-  const pass = document.getElementById('pass');
-  const confirmPass = document.getElementById('confirmPass');
   const passErrorMessage = document.getElementById('passErrorMessage');
   const confirmPassErrorMessage = document.getElementById('confirmPassErrorMessage');
 
@@ -106,37 +122,38 @@ const validateForm = (formData) => {
       passErrorMessage.innerHTML = '';
     }
 
-    if (!formData.confirmPassword) {
-      confirmPass.classList.add('is-invalid');
-      confirmPassErrorMessage.innerHTML = 'Confirme a sua senha';
-      valid = false;
-    } else {
-      confirmPass.classList.remove('is-invalid');
-      confirmPassErrorMessage.innerHTML = '';
+    if (currentFormState === 'register') {
+      if (!formData.confirmPassword) {
+        confirmPass.classList.add('is-invalid');
+        confirmPassErrorMessage.innerHTML = 'Confirme a sua senha';
+        valid = false;
+      } else {
+        confirmPass.classList.remove('is-invalid');
+        confirmPassErrorMessage.innerHTML = '';
+      }
     }
   }
 
-  const name = document.getElementById('name');
-  const nameErrorMessage = document.getElementById('nameErrorMessage');
+  if (currentFormState === 'register') {
+    const nameErrorMessage = document.getElementById('nameErrorMessage');
 
-  if (!formData.name) {
-    name.classList.add('is-invalid');
-    nameErrorMessage.innerHTML = 'Digite seu primeiro nome';
-    valid = false;
-  } else {
-    name.classList.remove('is-invalid');
+    if (!formData.name) {
+      name.classList.add('is-invalid');
+      nameErrorMessage.innerHTML = 'Digite seu primeiro nome';
+      valid = false;
+    } else {
+      name.classList.remove('is-invalid');
+    }
+
+    const lastnameErrorMessage = document.getElementById('lastnameErrorMessage');
+
+    if (!formData.last_name) {
+      lastname.classList.add('is-invalid');
+      lastnameErrorMessage.innerHTML = 'Digite seu sobrenome';
+      valid = false;
+    } else {
+      lastname.classList.remove('is-invalid');
+    }
   }
-
-  const lastname = document.getElementById('lastname');
-  const lastnameErrorMessage = document.getElementById('lastnameErrorMessage');
-
-  if (!formData.last_name) {
-    lastname.classList.add('is-invalid');
-    lastnameErrorMessage.innerHTML = 'Digite seu sobrenome';
-    valid = false;
-  } else {
-    lastname.classList.remove('is-invalid');
-  }
-
   return valid;
 }

@@ -22,4 +22,14 @@ const showToast = (message, type) => {
   toast.show();
 }
 
-export { showToast };
+const clearForm = (formId) => {
+  const form = document.getElementById(formId);
+  const inputs = form.getElementsByTagName('input');
+
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = "";
+  }
+}
+
+
+export { showToast, clearForm };
