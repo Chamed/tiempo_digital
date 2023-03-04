@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         url: '../../../server/auth/auth.php',
         data: formData,
         success: (jsonResponse) => {
+          console.log(jsonResponse)
           const response = JSON.parse(jsonResponse);
 
           if (response.status === 'error') {

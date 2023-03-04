@@ -13,10 +13,10 @@ function register_user()
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
   try {
-    $stmt = $conn->prepare("INSERT INTO tiempo_digital.user (email, password, name, last_name) VALUES (:email, :password, :name, :last_name)");
-    $stmt->execute(array('email' => $email, 'password' => $password, 'name' => $name, 'last_name' => $last_name));
+    $stmt = $conn->prepare("INSERT INTO tiempo_digital.tb_user (email, password, first_name, last_name) VALUES (:email, :password, :first_name, :last_name)");
+    $stmt->execute(array('email' => $email, 'password' => $password, 'first_name' => $name, 'last_name' => $last_name));
   } catch (Exception $e) {
-    $response = array('status' => 'error', 'message' => $e->getCode());
+    $response = array('status' => 'error', 'message' => $e->getMessage());
   } finally {
     echo json_encode($response);
   }
@@ -32,7 +32,7 @@ function login()
   $password = $_POST['password'];
 
   try {
-    $user_query = "SELECT * FROM tiempo_digital.user WHERE email = :email";
+    $user_query = "SELECT * FROM tiempo_digital.tb_user WHERE email = :email";
     $stmt = $conn->prepare($user_query);
     $stmt->execute(array('email' => $email));
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ function login()
       $response['message'] = 'OK';
     }
   } catch (Exception $e) {
-    $response = array('status' => 'error', 'message' => $e->getCode());
+    $response = array('status' => 'error', 'message' => $e->getMessage());
   } finally {
     echo json_encode($response);
   }
@@ -64,7 +64,7 @@ function logout()
   try {
     $_SESSION['user_data'] = null;
   } catch (Exception $e) {
-    $response = array('status' => 'error', 'message' => $e->getCode());
+    $response = array('status' => 'error', 'message' => $e->getMessage());
   } finally {
     echo json_encode($response);
   }

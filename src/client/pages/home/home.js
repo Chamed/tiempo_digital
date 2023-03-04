@@ -24,7 +24,7 @@ const setUserInfo = () => {
   gravatar.src = gravatarUrl;
 
   const username = document.getElementById('username');
-  username.innerHTML = `${user.name} ${user.last_name}`;
+  username.innerHTML = `${user.first_name} ${user.last_name}`;
 }
 
 const logout = () => {
