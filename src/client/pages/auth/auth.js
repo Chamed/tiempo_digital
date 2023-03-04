@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (validateForm(formData)) {
       $.ajax({
         type: 'post',
-        url: '../../server/auth/auth.php',
+        url: '../../../server/auth/auth.php',
         data: formData,
         success: (jsonResponse) => {
           const response = JSON.parse(jsonResponse);
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
               showToast('Login efetuado com sucesso', 'success');
               localStorage.setItem('user', JSON.stringify(response.user_data));
-              console.log(JSON.parse(localStorage.getItem('user')));
+              window.location.replace('../home/home.html');
             }
 
             clearForm('form');

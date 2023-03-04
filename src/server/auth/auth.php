@@ -46,7 +46,7 @@ function login()
       unset($user['password']);
       $_SESSION['user_data'] = $user;
 
-       $response['user_data'] = $user;
+      $response['user_data'] = $user;
       $response['status'] = 'success';
       $response['message'] = 'OK';
     }
@@ -57,9 +57,24 @@ function login()
   }
 }
 
+function logout()
+{
+  $response = array('status' => 'success', 'message' => 'OK');
+
+  try {
+    $_SESSION['user_data'] = null;
+  } catch (Exception $e) {
+    $response = array('status' => 'error', 'message' => $e->getCode());
+  } finally {
+    echo json_encode($response);
+  }
+}
+
 if ($type == 'login') {
   login();
-} else {
+} else if ($type == 'register') {
   register_user();
+} else {
+  logout();
 }
 ?>

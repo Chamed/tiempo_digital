@@ -41,5 +41,12 @@ const quickUnauthenticatedUser = () => {
   });
 }
 
+const getGravatar = (email, size) => {
+  const hash = md5(email.trim().toLowerCase());
+  const url = 'https://www.gravatar.com/avatar/' + hash + '?s=' + size;
 
-export { showToast, clearForm, quickUnauthenticatedUser };
+  return url;
+}
+
+
+export { showToast, clearForm, quickUnauthenticatedUser, getGravatar };
