@@ -1,4 +1,4 @@
-import { showToast } from '../../utils/utils.js';
+import { showToast, clearForm } from '../../utils/utils.js';
 import { buildListBooks } from './book.js';
 
 const user_id = JSON.parse(localStorage.getItem('user')).id;
@@ -129,6 +129,7 @@ const submitListForm = (event) => {
           removeListWrappers();
           buildUserLists();
           showToast('Lista criada com sucesso', 'success');
+          clearForm('listForm')
           $('#createListModal').modal('hide')
         }
       },

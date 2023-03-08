@@ -25,9 +25,15 @@ const showToast = (message, type) => {
 const clearForm = (formId) => {
   const form = document.getElementById(formId);
   const inputs = form.getElementsByTagName('input');
+  const texts = form.getElementsByTagName('textarea');
+
 
   for (let i = 0; i < inputs.length; i++) {
     inputs[i].value = "";
+  }
+
+  for (let i = 0; i < texts.length; i++) {
+    texts[i].value = "";
   }
 }
 
