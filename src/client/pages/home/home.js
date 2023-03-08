@@ -6,12 +6,7 @@ quickUnauthenticatedUser();
 
 document.addEventListener('DOMContentLoaded', () => {
   setUserInfo();
-
-  const logoutElement = document.getElementById('logout');
-
-  logoutElement.addEventListener('click', (_) => {
-    logout();
-  });
+  document.getElementById('logout').addEventListener('click', logout);
 });
 
 /////////////

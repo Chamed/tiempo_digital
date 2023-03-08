@@ -16,7 +16,7 @@ function register_user()
     $stmt = $conn->prepare("INSERT INTO tiempo_digital.tb_user (email, password, first_name, last_name) VALUES (:email, :password, :first_name, :last_name)");
     $stmt->execute(array('email' => $email, 'password' => $password, 'first_name' => $name, 'last_name' => $last_name));
   } catch (Exception $e) {
-    $response = array('status' => 'error', 'message' => $e->getMessage());
+    $response = array('status' => 'error', 'message' => $e->getCode());
   } finally {
     echo json_encode($response);
   }
@@ -51,7 +51,7 @@ function login()
       $response['message'] = 'OK';
     }
   } catch (Exception $e) {
-    $response = array('status' => 'error', 'message' => $e->getMessage());
+    $response = array('status' => 'error', 'message' => $e->getCode());
   } finally {
     echo json_encode($response);
   }
